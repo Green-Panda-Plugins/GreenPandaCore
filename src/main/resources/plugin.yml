@@ -1,0 +1,19 @@
+name: GreenPandaCore
+version: '${project.version}'
+main: me.greenpanda.core.GreenPandaCore
+api-version: 1.19
+prefix: GPCore
+authors: [ PandaDev, SomeGreenDude ]
+description: Required for most GreenPanda plugins
+commands:
+  giveitem:
+    description: Gives the specified items to the specified player(s)
+    usage: /<command> <player> <item>
+    aliases:
+      - gi
+    permission: greenpanda.giveitem
+    permission-message: You do not have permission to use this command!
+permissions:
+  greenpanda.giveitem:
+    description: Allows the player to give themselves or other players a custom item
+    default: op
