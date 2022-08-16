@@ -1,11 +1,11 @@
-package me.greenpanda.core.commands;
+package dev.michaud.greenpanda.core.commands;
 
+import dev.michaud.greenpanda.core.item.CustomItem;
+import dev.michaud.greenpanda.core.item.ItemRegistry;
+import dev.michaud.greenpanda.core.util.Target;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import me.greenpanda.core.item.CustomItem;
-import me.greenpanda.core.item.ItemRegistry;
-import me.greenpanda.core.util.Target;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

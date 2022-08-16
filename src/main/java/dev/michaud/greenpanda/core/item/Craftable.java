@@ -1,4 +1,4 @@
-package me.greenpanda.core.item;
+package dev.michaud.greenpanda.core.item;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.Recipe;

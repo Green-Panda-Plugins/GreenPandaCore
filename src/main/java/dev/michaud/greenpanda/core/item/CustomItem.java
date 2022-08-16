@@ -1,7 +1,7 @@
-package me.greenpanda.core.item;
+package dev.michaud.greenpanda.core.item;
 
 import java.util.Objects;
-import me.greenpanda.core.GreenPandaCore;
+import dev.michaud.greenpanda.core.GreenPandaCore;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

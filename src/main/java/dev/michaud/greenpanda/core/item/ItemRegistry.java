@@ -1,4 +1,4 @@
-package me.greenpanda.core.item;
+package dev.michaud.greenpanda.core.item;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,6 +1,6 @@
-package me.greenpanda.core;
+package dev.michaud.greenpanda.core;
 
-import me.greenpanda.core.commands.GiveItem;
+import dev.michaud.greenpanda.core.commands.GiveItem;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.plugin.java.JavaPlugin;

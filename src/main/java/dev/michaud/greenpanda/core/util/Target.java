@@ -1,4 +1,4 @@
-package me.greenpanda.core.util;
+package dev.michaud.greenpanda.core.util;
 
 import java.util.List;
 import java.util.Objects;
