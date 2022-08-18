@@ -1,6 +1,6 @@
 name: GreenPandaCore
 version: '${project.version}'
-main: me.greenpanda.core.GreenPandaCore
+main: dev.michaud.greenpanda.core.GreenPandaCore
 api-version: 1.19
 prefix: GPCore
 authors: [ PandaDev, SomeGreenDude ]

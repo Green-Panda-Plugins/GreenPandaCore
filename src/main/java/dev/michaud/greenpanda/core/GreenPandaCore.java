@@ -7,27 +7,20 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class GreenPandaCore extends JavaPlugin {
 
-  private static GreenPandaCore plugin;
-
-  public static GreenPandaCore getCore() {
-    return plugin;
-  }
-
   @Override
   public void onEnable() {
-    plugin = this;
 
     getCommand("giveitem").setExecutor(new GiveItem());
 
     getServer().getConsoleSender().sendMessage(
-        Component.text("[GreenPanda] Core Enabled").color(NamedTextColor.DARK_GREEN));
+        Component.text("[GPCore] Core Enabled").color(NamedTextColor.DARK_GREEN));
 
   }
 
   @Override
   public void onDisable() {
     getServer().getConsoleSender().sendMessage(
-        Component.text("[GreenPanda] Core Disabled").color(NamedTextColor.DARK_RED));
+        Component.text("[GPCore] Core Disabled").color(NamedTextColor.DARK_RED));
   }
 
 }

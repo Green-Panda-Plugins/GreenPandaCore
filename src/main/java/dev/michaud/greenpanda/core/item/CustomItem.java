@@ -9,12 +9,13 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public interface CustomItem {
 
   /**
-   * Get the custom model data for the item.
+   * Get the custom model data for the item. 0 if no custom model data is required.
    *
    * @return The custom model data of the item.
    */
@@ -36,25 +37,25 @@ public interface CustomItem {
   @NotNull Component displayName();
 
   /**
-   * Get the base material for this item. This is the material that will be used to create the
-   * item.
+   * Get the base {@link Material} for this item. This is the underlying material the item is made
+   * from.
    *
    * @return The base material for this item.
    */
   @NotNull Material baseMaterial();
 
   /**
-   * Creates a new item stack for this item. By default, this automatically sets the display name,
-   * model data, and custom id.
+   * Creates a new {@link ItemStack} for this item. By default, this automatically sets the display
+   * name, model data, and custom id.
    *
    * @return A new item stack for this item.
    */
   default @NotNull ItemStack makeItem() {
 
-    final ItemStack item = new ItemStack(baseMaterial(), 1);
-    final ItemMeta meta = item.getItemMeta();
+    ItemStack item = new ItemStack(baseMaterial(), 1);
+    ItemMeta meta = item.getItemMeta();
 
-    final NamespacedKey key = new NamespacedKey(GreenPandaCore.getCore(), "custom_item_id");
+    NamespacedKey key = new NamespacedKey(JavaPlugin.getPlugin(GreenPandaCore.class), "custom_item_id");
 
     meta.displayName(displayName());
     meta.setCustomModelData(customModelData());
@@ -79,7 +80,7 @@ public interface CustomItem {
     }
 
     PersistentDataContainer dataContainer = item.getItemMeta().getPersistentDataContainer();
-    NamespacedKey key = new NamespacedKey(GreenPandaCore.getCore(), "custom_item_id");
+    NamespacedKey key = new NamespacedKey(JavaPlugin.getPlugin(GreenPandaCore.class), "custom_item_id");
 
     if (!dataContainer.has(key, PersistentDataType.STRING)) {
       return false;

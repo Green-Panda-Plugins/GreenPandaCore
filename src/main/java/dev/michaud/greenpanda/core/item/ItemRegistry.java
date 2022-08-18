@@ -5,6 +5,9 @@ import java.util.Map;
 import javax.annotation.Nullable;
 import org.bukkit.Bukkit;
 
+/**
+ * Register custom items here. Stores the item id and the {@link CustomItem} class in a hashmap.
+ */
 public class ItemRegistry {
 
   private static final Map<String, CustomItem> map = new HashMap<>();

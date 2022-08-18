@@ -7,14 +7,14 @@ import org.jetbrains.annotations.NotNull;
 public interface Craftable extends CustomItem {
 
   /**
-   * Gets the namespace key for the recipe.
+   * Gets the {@link NamespacedKey} for the recipe.
    *
    * @return The recipe namespace key for this item;
    */
   @NotNull NamespacedKey namespacedKey();
 
   /**
-   * Gets the recipe for crafting this item.
+   * Gets the {@link Recipe} for crafting this item.
    *
    * @return The recipe for this item.
    */

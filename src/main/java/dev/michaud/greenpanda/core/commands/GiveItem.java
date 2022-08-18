@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Custom command to give a custom item to a player. Uses the item registry to get items.
+ * Custom command to give a custom item to a player. Uses the {@link ItemRegistry} to get items.
  */
 public class GiveItem implements TabExecutor {
 

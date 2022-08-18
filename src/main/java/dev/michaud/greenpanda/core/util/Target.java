@@ -21,8 +21,9 @@ import org.jetbrains.annotations.Nullable;
 public class Target {
 
   //TODO: Add support for parameters (like @e[type=panda])
+
   /**
-   * Gets a list of entities from the given target selector.
+   * Gets an {@link Entity} list from the given target selector.
    *
    * @param sender The sender of the command.
    * @param arg    The target selector.
@@ -101,7 +102,7 @@ public class Target {
   }
 
   /**
-   * Gets a random player from the given world.
+   * Gets a random {@link Player} from the given {@link World}.
    *
    * @param world The world to get the player from.
    * @return A random player, null if there are no players.
@@ -118,7 +119,7 @@ public class Target {
   }
 
   /**
-   * Gets the closest player to the given location.
+   * Gets the closest {@link Player} to the given {@link Location}.
    *
    * @param location The location to get the closest player from.
    * @return The closest player, null if there are no players.
