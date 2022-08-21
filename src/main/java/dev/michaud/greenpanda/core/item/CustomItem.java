@@ -55,7 +55,7 @@ public interface CustomItem {
     ItemStack item = new ItemStack(baseMaterial(), 1);
     ItemMeta meta = item.getItemMeta();
 
-    NamespacedKey key = new NamespacedKey(JavaPlugin.getPlugin(GreenPandaCore.class), "custom_item_id");
+    NamespacedKey key = new NamespacedKey(GreenPandaCore.getCore(), "custom_item_id");
 
     meta.displayName(displayName());
     meta.setCustomModelData(customModelData());
@@ -80,7 +80,7 @@ public interface CustomItem {
     }
 
     PersistentDataContainer dataContainer = item.getItemMeta().getPersistentDataContainer();
-    NamespacedKey key = new NamespacedKey(JavaPlugin.getPlugin(GreenPandaCore.class), "custom_item_id");
+    NamespacedKey key = new NamespacedKey(GreenPandaCore.getCore(), "custom_item_id");
 
     if (!dataContainer.has(key, PersistentDataType.STRING)) {
       return false;

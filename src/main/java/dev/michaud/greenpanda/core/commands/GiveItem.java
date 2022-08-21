@@ -2,7 +2,7 @@ package dev.michaud.greenpanda.core.commands;
 
 import dev.michaud.greenpanda.core.item.CustomItem;
 import dev.michaud.greenpanda.core.item.ItemRegistry;
-import dev.michaud.greenpanda.core.util.Target;
+import dev.michaud.greenpanda.core.util.TargetSelectors;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +27,7 @@ public class GiveItem implements TabExecutor {
       return false;
     }
 
-    Player[] targets = Target.playerFromEntities(Target.getTargets(sender, args[0]));
+    Player[] targets = TargetSelectors.playerFromEntities(TargetSelectors.getTargets(sender, args[0]));
 
     if (targets == null) {
       Player target = Bukkit.getPlayer(args[0]);

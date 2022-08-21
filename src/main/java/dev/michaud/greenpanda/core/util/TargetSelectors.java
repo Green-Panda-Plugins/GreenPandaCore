@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Makes it easy to use target selectors (e.g. @a, @p, @r, @s)
  */
-public class Target {
+public class TargetSelectors {
 
   //TODO: Add support for parameters (like @e[type=panda])
 
