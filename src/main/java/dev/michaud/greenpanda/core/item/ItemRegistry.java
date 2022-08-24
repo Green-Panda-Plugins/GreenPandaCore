@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Nullable;
 import org.bukkit.Bukkit;
+import org.jetbrains.annotations.Contract;
 
 /**
  * Register custom items here. Stores the item id and the {@link CustomItem} class in a hashmap.
@@ -18,6 +19,7 @@ public class ItemRegistry {
    *
    * @return The map containing all registered items.
    */
+  @Contract(pure = true)
   public static Map<String, CustomItem> getMap() {
     return map;
   }
@@ -30,6 +32,7 @@ public class ItemRegistry {
    * @param item The custom item to register.
    * @return True if the item was registered, false otherwise.
    */
+  @Contract("null -> false")
   public static boolean registerItem(CustomItem item) {
 
     if (item == null) {
@@ -59,6 +62,7 @@ public class ItemRegistry {
    * @param key The key of the custom item to remove.
    * @return True if the item was removed, false otherwise.
    */
+  @Contract("null -> false")
   public static boolean unregisterItem(String key) {
 
     if (key == null || key.isBlank() || !map.containsKey(key)) {
@@ -77,6 +81,7 @@ public class ItemRegistry {
    * @param item The item to remove.
    * @return True if the item was removed, false otherwise.
    */
+  @Contract("null -> false")
   public static boolean unregisterItem(CustomItem item) {
 
     if (item == null) {
@@ -106,6 +111,7 @@ public class ItemRegistry {
    * @param item The item to register/ update.
    * @return True if the item was registered or updated, false otherwise.
    */
+  @Contract("null -> false")
   public static boolean updateItem(CustomItem item) {
 
     if (item == null) {
@@ -127,7 +133,14 @@ public class ItemRegistry {
 
   }
 
+  /**
+   * Gets the custom item with the given customId.
+   *
+   * @param key The customId of the item to get.
+   * @return The custom item with the given customId, or null if none exists.
+   */
   @Nullable
+  @Contract("null -> null")
   public static CustomItem findCustomItem(String key) {
 
     if (key == null || key.isBlank()) {

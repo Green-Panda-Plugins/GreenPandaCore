@@ -9,26 +9,32 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Utility class to damage and break custom items.
+ */
 public class DamageItem {
 
   /**
    * Damages an item, taking unbreaking enchantments into account.
+   *
    * @param player The player with the item
-   * @param item The item to damage
+   * @param item   The item to damage
    * @return True if the item was damaged.
    */
-  public static boolean damageItemWithUnbreaking(Player player, @NotNull ItemStack item) {
+  public static boolean damageItemWithUnbreaking(@NotNull Player player, @NotNull ItemStack item) {
     return damageItemWithUnbreaking(player, item, new Random());
   }
 
   /**
    * Damages an item, taking unbreaking enchantments into account.
+   *
    * @param player The player with the item
-   * @param item The item to damage
+   * @param item   The item to damage
    * @param random The random instance to use
    * @return True if the item was damaged.
    */
-  public static boolean damageItemWithUnbreaking(Player player, @NotNull ItemStack item, Random random) {
+  public static boolean damageItemWithUnbreaking(@NotNull Player player, @NotNull ItemStack item,
+      Random random) {
 
     if (!(item.getItemMeta() instanceof Damageable meta)) {
       return false;
@@ -49,15 +55,18 @@ public class DamageItem {
     }
 
     return false;
+
   }
 
   /**
    * Damages an item without taking unbreaking enchantments into account.
+   *
    * @param player The player with the item
-   * @param item The item to damage
+   * @param item   The item to damage
    * @return True if the item was damaged.
    */
   public static boolean damageItem(Player player, @NotNull ItemStack item) {
+
     if (!(item.getItemMeta() instanceof Damageable meta)) {
       return false;
     }
@@ -75,16 +84,32 @@ public class DamageItem {
     } else {
       return breakItem(player, item, true);
     }
+
   }
 
   /**
-   * Breaks an item.
+   * Breaks an item by removing it from the player's inventory and plays a breaking sound at the
+   * player's location.
+   *
    * @param player The player with the item
-   * @param item The item to break
+   * @param item   The item to break
+   * @return True if the item was broken.
+   */
+  public static boolean breakItem(@NotNull Player player, @NotNull ItemStack item) {
+    return breakItem(player, item, true);
+  }
+
+  /**
+   * Breaks an item by removing it from the player's inventory. If playSound is true, a breaking
+   * sound will play at the player's location.
+   *
+   * @param player    The player with the item
+   * @param item      The item to break
    * @param playSound Whether to play the breaking sound.
    * @return True if the item was broken.
    */
-  public static boolean breakItem(@NotNull Player player, @NotNull ItemStack item, boolean playSound) {
+  public static boolean breakItem(@NotNull Player player, @NotNull ItemStack item,
+      boolean playSound) {
 
     HashMap<Integer, ItemStack> remove = player.getInventory().removeItem(item);
     if (!remove.isEmpty()) {
@@ -98,4 +123,5 @@ public class DamageItem {
     return true;
 
   }
+
 }

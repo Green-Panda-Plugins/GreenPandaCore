@@ -76,6 +76,7 @@ public class TargetSelectors {
     }
 
     return result;
+
   }
 
   /**
@@ -99,6 +100,7 @@ public class TargetSelectors {
     }
 
     return players.toArray(new Player[0]);
+
   }
 
   /**
@@ -116,6 +118,7 @@ public class TargetSelectors {
 
     List<Player> players = world.getPlayers();
     return players.get(random.nextInt(players.size()));
+
   }
 
   /**
@@ -141,6 +144,7 @@ public class TargetSelectors {
       }
     }
     return closest;
+
   }
 
 }

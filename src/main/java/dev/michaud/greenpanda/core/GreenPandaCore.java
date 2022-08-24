@@ -5,15 +5,17 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * GreenPandaCore is a library that most of the other plugins in the Green/Panda plugin pack rely
+ * on. It provides a few useful features, such as custom item interface.
+ *
+ * @author PandaDev
+ */
 public final class GreenPandaCore extends JavaPlugin {
 
   private static GreenPandaCore core;
 
   public static GreenPandaCore getCore() {
-    if (core == null) {
-      System.out.println("The core is null. I dunno why, but it is. It should have been set in "
-          + "onEnable() but it wasn't because it's stinky.");
-    }
     return core;
   }
 

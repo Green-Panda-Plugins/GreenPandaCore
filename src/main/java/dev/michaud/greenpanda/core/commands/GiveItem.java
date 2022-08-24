@@ -27,7 +27,8 @@ public class GiveItem implements TabExecutor {
       return false;
     }
 
-    Player[] targets = TargetSelectors.playerFromEntities(TargetSelectors.getTargets(sender, args[0]));
+    Player[] targets = TargetSelectors.playerFromEntities(
+        TargetSelectors.getTargets(sender, args[0]));
 
     if (targets == null) {
       Player target = Bukkit.getPlayer(args[0]);
@@ -70,10 +71,9 @@ public class GiveItem implements TabExecutor {
     }
 
     if (args.length == 2) {
-      List<String> list = new ArrayList<>();
-      ItemRegistry.getMap().forEach((k, v) -> list.add(k));
 
-      return list;
+      return ItemRegistry.getMap().keySet().stream().toList();
+
     }
 
     return null;

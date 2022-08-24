@@ -1,7 +1,6 @@
 package dev.michaud.greenpanda.core.item;
 
 import java.util.Objects;
-import dev.michaud.greenpanda.core.GreenPandaCore;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -10,19 +9,24 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Represents a custom item.
+ */
 public interface CustomItem {
 
   /**
-   * Get the custom model data for the item. 0 if no custom model data is required.
+   * Gets the plugin that this item class is registered in. This also acts as the namespace for this
+   * item when setting the custom item id.
    *
-   * @return The custom model data of the item.
+   * @return The plugin that this item class is registered in.
    */
-  int customModelData();
+  @NotNull JavaPlugin getOwnerPlugin();
 
   /**
-   * Get the unique identifier for this item. This is used to keep track of the item, so make sure
+   * Gets the unique identifier for this item. This is used to keep track of the item, so make sure
    * it's not a duplicate.
    *
    * @return The unique identifier for this item.
@@ -30,14 +34,22 @@ public interface CustomItem {
   @NotNull String customId();
 
   /**
-   * Get the display name for this item. This is the name that will be displayed in the inventory.
+   * Gets the custom model data for the item. 0 if no custom model data is required.
    *
-   * @return The display name for this item.
+   * @return The custom model data of the item.
    */
-  @NotNull Component displayName();
+  int customModelData();
 
   /**
-   * Get the base {@link Material} for this item. This is the underlying material the item is made
+   * Gets the display name for this item that will be shown in the inventory. If null, the display
+   * name will be the default item name.
+   *
+   * @return The display name for this item. Null if the default display name should be used.
+   */
+  Component displayName();
+
+  /**
+   * Gets the base {@link Material} for this item. This is the underlying material the item is made
    * from.
    *
    * @return The base material for this item.
@@ -55,7 +67,7 @@ public interface CustomItem {
     ItemStack item = new ItemStack(baseMaterial(), 1);
     ItemMeta meta = item.getItemMeta();
 
-    NamespacedKey key = new NamespacedKey(GreenPandaCore.getCore(), "custom_item_id");
+    NamespacedKey key = new NamespacedKey(getOwnerPlugin(), "custom_item_id");
 
     meta.displayName(displayName());
     meta.setCustomModelData(customModelData());
@@ -67,8 +79,10 @@ public interface CustomItem {
   }
 
   /**
-   * Checks if the given item is of the same type as this item. By default, checks if the item is of
-   * the same type and has the same custom id.
+   * <p>Checks if the given {@link ItemStack} is of the same type as this {@link CustomItem}.
+   * <p>An item is defined as the same type if {@link ItemStack#getType()} is equal
+   * to {@link CustomItem#baseMaterial()}, and the {@link ItemStack} has NBT data matching {@link
+   * CustomItem#customId()} in the namespace of {@link CustomItem#getOwnerPlugin()}.</p>
    *
    * @param item The item to check.
    * @return True if the item is of the same type as this item.
@@ -80,7 +94,7 @@ public interface CustomItem {
     }
 
     PersistentDataContainer dataContainer = item.getItemMeta().getPersistentDataContainer();
-    NamespacedKey key = new NamespacedKey(GreenPandaCore.getCore(), "custom_item_id");
+    NamespacedKey key = new NamespacedKey(getOwnerPlugin(), "custom_item_id");
 
     if (!dataContainer.has(key, PersistentDataType.STRING)) {
       return false;
