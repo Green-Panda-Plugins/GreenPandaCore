@@ -2,4 +2,4 @@
 (If running a new version, replace core-0.0.2 with the correct version number) -->
 
 mvn package
-mvn install:install-file -Dfile="target/core-0.0.2.jar" -DpomFile="pom.xml" -Dsources="target/core-0.0.2-sources.jar"
+mvn install:install-file -Dfile="target/core-0.0.3.jar" -DpomFile="pom.xml" -Dsources="target/core-0.0.3-sources.jar"

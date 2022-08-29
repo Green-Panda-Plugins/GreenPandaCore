@@ -1,6 +1,7 @@
 package dev.michaud.greenpanda.core;
 
 import dev.michaud.greenpanda.core.commands.GiveItem;
+import dev.michaud.greenpanda.core.event.PrepareAnvil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,6 +26,8 @@ public final class GreenPandaCore extends JavaPlugin {
     core = this;
 
     getCommand("giveitem").setExecutor(new GiveItem());
+
+    getServer().getPluginManager().registerEvents(new PrepareAnvil(), this);
 
     getServer().getConsoleSender()
         .sendMessage(Component.text("[GPCore] Core Enabled").color(NamedTextColor.DARK_GREEN));
