@@ -1,6 +1,8 @@
 package dev.michaud.greenpanda.core;
 
 import dev.michaud.greenpanda.core.commands.GiveItem;
+import dev.michaud.greenpanda.core.event.ArmorChangeListener;
+import dev.michaud.greenpanda.core.event.PlayerArmorEventTest;
 import dev.michaud.greenpanda.core.event.PrepareAnvil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -28,6 +30,8 @@ public final class GreenPandaCore extends JavaPlugin {
     getCommand("giveitem").setExecutor(new GiveItem());
 
     getServer().getPluginManager().registerEvents(new PrepareAnvil(), this);
+    getServer().getPluginManager().registerEvents(new ArmorChangeListener(), this);
+    getServer().getPluginManager().registerEvents(new PlayerArmorEventTest(), this);
 
     getServer().getConsoleSender()
         .sendMessage(Component.text("[GPCore] Core Enabled").color(NamedTextColor.DARK_GREEN));
