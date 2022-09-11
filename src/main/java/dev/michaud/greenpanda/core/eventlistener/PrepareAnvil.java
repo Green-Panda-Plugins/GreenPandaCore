@@ -1,9 +1,8 @@
-package dev.michaud.greenpanda.core.event;
+package dev.michaud.greenpanda.core.eventlistener;
 
 import dev.michaud.greenpanda.core.GreenPandaCore;
 import dev.michaud.greenpanda.core.item.AnvilRepairData;
 import dev.michaud.greenpanda.core.item.AnvilRepairable;
-import dev.michaud.greenpanda.core.item.CustomItem;
 import dev.michaud.greenpanda.core.item.ItemRegistry;
 import java.util.List;
 import java.util.logging.Level;
@@ -15,6 +14,9 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Listens for when an anvil is prepared. Used for custom anvil recipes.
+ */
 public class PrepareAnvil implements Listener {
 
   @EventHandler
@@ -28,9 +30,8 @@ public class PrepareAnvil implements Listener {
       return;
     }
 
-    List<AnvilRepairable> options = ItemRegistry.getMap().values().stream()
-        .filter(c -> validRepairable(c, item1, item2))
-        .map(c -> (AnvilRepairable) c).toList();
+    List<AnvilRepairable> options = ItemRegistry.getValues(AnvilRepairable.class).stream()
+        .filter(c -> validRepairable(c, item1, item2)).toList();
 
     if (options.isEmpty()) {
       return;
@@ -61,21 +62,17 @@ public class PrepareAnvil implements Listener {
   }
 
   @Contract("null, _, _ -> false")
-  private static boolean validRepairable(CustomItem customItem, ItemStack item1, ItemStack item2) {
+  private static boolean validRepairable(AnvilRepairable customItem, ItemStack item1, ItemStack item2) {
 
     if (customItem == null || item1 == null || item2 == null) {
       return false;
     }
 
-    if (!(customItem instanceof AnvilRepairable repairable)) {
+    if (!customItem.isType(item1)) {
       return false;
     }
 
-    if (!repairable.isType(item1)) {
-      return false;
-    }
-
-    return repairable.validRepairMaterial(item2);
+    return customItem.validRepairMaterial(item2);
 
   }
 

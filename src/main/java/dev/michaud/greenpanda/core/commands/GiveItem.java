@@ -72,7 +72,7 @@ public class GiveItem implements TabExecutor {
 
     if (args.length == 2) {
 
-      return ItemRegistry.getMap().keySet().stream().toList();
+      return ItemRegistry.getKeys().stream().toList();
 
     }
 

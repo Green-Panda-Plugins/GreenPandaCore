@@ -1,10 +1,14 @@
 package dev.michaud.greenpanda.core.item;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import javax.annotation.Nullable;
-import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.UnmodifiableView;
 
 /**
  * Register custom items here. Stores the item id and the {@link CustomItem} class in a hashmap.
@@ -14,14 +18,51 @@ public class ItemRegistry {
   private static final Map<String, CustomItem> map = new HashMap<>();
 
   /**
-   * Gets the registry containing all registered items. In most cases, you should use other methods
-   * in this class instead of querying this map directly.
+   * Gets an unmodifiable view of the registry containing all registered items.
    *
    * @return The map containing all registered items.
    */
   @Contract(pure = true)
-  public static Map<String, CustomItem> getMap() {
-    return map;
+  public static @NotNull @UnmodifiableView Map<String, CustomItem> getMap() {
+    return Collections.unmodifiableMap(map);
+  }
+
+  /**
+   * Gets an unmodifiable {@link Collection} of every {@link CustomItem} currently registered.
+   *
+   * @return A collection containing all registered items.
+   */
+  @Contract(pure = true)
+  public static @UnmodifiableView @NotNull Collection<CustomItem> getValues() {
+    return getMap().values();
+  }
+
+  /**
+   * Gets an unmodifiable {@link Collection} of every {@link CustomItem} currently registered with
+   * the given class type.
+   *
+   * @param type The class type to filter by.
+   * @return A collection containing all registered items of the given class type.
+   */
+  @Contract(pure = true)
+  public static <A extends CustomItem> @UnmodifiableView @NotNull Collection<A> getValues(
+      @NotNull Class<A> type) {
+
+    return getValues().stream()
+        .filter(type::isInstance)
+        .map(type::cast)
+        .toList();
+
+  }
+
+  /**
+   * Gets an unmodifiable {@link Set} containing all registered item ids.
+   *
+   * @return A set containing all registered item ids.
+   */
+  @Contract(pure = true)
+  public static @UnmodifiableView @NotNull Set<String> getKeys() {
+    return getMap().keySet();
   }
 
   /**
@@ -46,7 +87,7 @@ public class ItemRegistry {
     }
 
     if (item instanceof Craftable craftable) {
-      Bukkit.getServer().addRecipe(craftable.recipe());
+      item.getOwnerPlugin().getServer().addRecipe(craftable.recipe());
     }
 
     map.put(key, item);
@@ -95,7 +136,7 @@ public class ItemRegistry {
     }
 
     if (item instanceof Craftable craftable) {
-      Bukkit.getServer().removeRecipe(craftable.namespacedKey());
+      item.getOwnerPlugin().getServer().removeRecipe(craftable.namespacedKey());
     }
 
     map.remove(key);
