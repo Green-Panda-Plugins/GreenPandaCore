@@ -13,6 +13,9 @@ commands:
       - gi
     permission: greenpanda.giveitem
     permission-message: You do not have permission to use this command!
+  testmobcap:
+    description: Test mob cap
+    usage: /<command>
 permissions:
   greenpanda.giveitem:
     description: Allows the player to give themselves or other players a custom item

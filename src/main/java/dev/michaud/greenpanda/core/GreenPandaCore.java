@@ -1,6 +1,9 @@
 package dev.michaud.greenpanda.core;
 
 import dev.michaud.greenpanda.core.commands.GiveItem;
+import dev.michaud.greenpanda.core.commands.TestMobCap;
+import dev.michaud.greenpanda.core.eventlistener.ChunkPopulate;
+import dev.michaud.greenpanda.core.eventlistener.PlayerGetItem;
 import dev.michaud.greenpanda.core.eventlistener.PlayerGetItemListener;
 import dev.michaud.greenpanda.core.eventlistener.PrepareAnvil;
 import net.kyori.adventure.text.Component;
@@ -32,9 +35,12 @@ public final class GreenPandaCore extends JavaPlugin {
     core = this;
 
     getCommand("giveitem").setExecutor(new GiveItem());
+    getCommand("testmobcap").setExecutor(new TestMobCap());
 
     getServer().getPluginManager().registerEvents(new PrepareAnvil(), this);
     getServer().getPluginManager().registerEvents(new PlayerGetItemListener(), this);
+    getServer().getPluginManager().registerEvents(new ChunkPopulate(), this);
+    getServer().getPluginManager().registerEvents(new PlayerGetItem(), this);
 
     getServer().getConsoleSender()
         .sendMessage(Component.text("[GPCore] Core Enabled").color(NamedTextColor.DARK_GREEN));

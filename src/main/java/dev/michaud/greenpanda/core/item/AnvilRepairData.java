@@ -6,7 +6,7 @@ import org.bukkit.inventory.ItemStack;
  * Data about an anvil repair. This is used to determine the result and information about the
  * repair.
  */
-public class AnvilRepairData {
+public abstract class AnvilRepairData {
 
   private ItemStack result;
   private int xpCost = 0;
