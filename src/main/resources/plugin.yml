@@ -16,6 +16,9 @@ commands:
   testmobcap:
     description: Test mob cap
     usage: /<command>
+  placeblock:
+    description: Place a custom block
+    usage: /<command>
 permissions:
   greenpanda.giveitem:
     description: Allows the player to give themselves or other players a custom item

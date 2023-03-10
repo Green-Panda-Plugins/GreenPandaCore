@@ -41,16 +41,6 @@ public class PlayerGetItemListener implements Listener {
       event.setCancelled(true);
     }
 
-    /*  Collection<RecipeUnlockable> customItems = ItemRegistry.getValues(RecipeUnlockable.class);
-
-    for (RecipeUnlockable unlockable : customItems) {
-
-      if (checkItem(player, eventItem.getType(), unlockable)) {
-        return;
-      }
-
-    }*/
-
   }
 
   @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -88,61 +78,6 @@ public class PlayerGetItemListener implements Listener {
       event.setCancelled(true);
     }
 
-    //Collection<RecipeUnlockable> customItems = ItemRegistry.getValues(RecipeUnlockable.class);
-
-/*    for (RecipeUnlockable unlockable : customItems) {
-
-      if (currentItem == null) {
-        break;
-      }
-
-      if (checkItem(player, currentItem.getType(), unlockable)) {
-        return;
-      }
-
-    }
-
-    for (RecipeUnlockable unlockable : customItems) {
-
-      if (checkInventory(player, unlockable)) {
-        return;
-      }
-
-    }*/
-
   }
-
-/*
-  private static boolean checkInventory(@NotNull HumanEntity player,
-      @NotNull RecipeUnlockable unlockable) {
-
-    for (ItemStack item : player.getInventory().getContents()) {
-
-      if (item == null) {
-        continue;
-      }
-
-      if (checkItem(player, item.getType(), unlockable)) {
-        return true;
-      }
-
-    }
-
-    return false;
-
-  }
-
-  private static boolean checkItem(HumanEntity player, Material eventMaterial,
-      @NotNull RecipeUnlockable unlockable) {
-
-    if (eventMaterial == unlockable.recipeRequirement()) {
-      player.discoverRecipe(unlockable.namespacedKey());
-      return true;
-    }
-
-    return false;
-
-  }
-*/
 
 }
