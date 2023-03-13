@@ -3,6 +3,7 @@ package dev.michaud.greenpanda.core;
 import dev.michaud.greenpanda.core.commands.GiveItem;
 import dev.michaud.greenpanda.core.commands.PlaceBlock;
 import dev.michaud.greenpanda.core.commands.TestMobCap;
+import dev.michaud.greenpanda.core.eventlistener.ArmorChangeListener;
 import dev.michaud.greenpanda.core.eventlistener.BlockUpdateEvent;
 import dev.michaud.greenpanda.core.eventlistener.ChunkPopulate;
 import dev.michaud.greenpanda.core.eventlistener.PlayerGetItem;
@@ -45,6 +46,7 @@ public final class GreenPandaCore extends JavaPlugin {
     getServer().getPluginManager().registerEvents(new ChunkPopulate(), this);
     getServer().getPluginManager().registerEvents(new PlayerGetItem(), this);
     getServer().getPluginManager().registerEvents(new BlockUpdateEvent(), this);
+    getServer().getPluginManager().registerEvents(new ArmorChangeListener(), this);
 
     getServer().getConsoleSender()
         .sendMessage(Component.text("[GPCore] Core Enabled").color(NamedTextColor.DARK_GREEN));
