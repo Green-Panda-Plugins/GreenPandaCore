@@ -319,9 +319,6 @@ public class ArmorChangeListener implements Listener {
     }
 
     ItemStack wornArmor = playerGetArmor(player, armorType);
-    if (!(wornArmor == null || wornArmor.getType().isEmpty())) {
-      return; //Already item in armor slot
-    }
 
     EntityArmorChangeEvent newEvent = callEvent(player, EquipMethod.PLAYER_RIGHT_CLICK, wornArmor,
         handItem, armorType);
@@ -329,6 +326,8 @@ public class ArmorChangeListener implements Listener {
     playerSetArmor(player, armorType, newEvent.getNewArmor());
     player.getInventory().setItem(hand, newEvent.getOldArmor());
     player.updateInventory();
+
+    event.setCancelled(true);
 
   }
 

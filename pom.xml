@@ -6,7 +6,7 @@
 
   <groupId>dev.michaud.greenpanda</groupId>
   <artifactId>core</artifactId>
-  <version>0.0.5</version>
+  <version>0.1.0</version>
   <packaging>jar</packaging>
 
   <name>GreenPandaCore</name>
@@ -157,7 +157,7 @@
     <dependency>
       <groupId>io.papermc.paper</groupId>
       <artifactId>paper-api</artifactId>
-      <version>1.19-R0.1-SNAPSHOT</version>
+      <version>1.19.4-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
