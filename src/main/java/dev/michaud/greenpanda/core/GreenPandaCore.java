@@ -1,11 +1,13 @@
 package dev.michaud.greenpanda.core;
 
 import dev.michaud.greenpanda.core.commands.GiveItem;
+import dev.michaud.greenpanda.core.commands.ItemMenu;
 import dev.michaud.greenpanda.core.commands.PlaceBlock;
 import dev.michaud.greenpanda.core.commands.TestMobCap;
 import dev.michaud.greenpanda.core.eventlistener.ArmorChangeListener;
 import dev.michaud.greenpanda.core.eventlistener.BlockUpdateEvent;
 import dev.michaud.greenpanda.core.eventlistener.ChunkPopulate;
+import dev.michaud.greenpanda.core.eventlistener.ItemMenuListener;
 import dev.michaud.greenpanda.core.eventlistener.PlayerGetItem;
 import dev.michaud.greenpanda.core.eventlistener.PlayerGetItemListener;
 import dev.michaud.greenpanda.core.eventlistener.PrepareAnvil;
@@ -40,6 +42,7 @@ public final class GreenPandaCore extends JavaPlugin {
     getCommand("giveitem").setExecutor(new GiveItem());
     getCommand("testmobcap").setExecutor(new TestMobCap());
     getCommand("placeblock").setExecutor(new PlaceBlock());
+    getCommand("itemmenu").setExecutor(new ItemMenu());
 
     getServer().getPluginManager().registerEvents(new PrepareAnvil(), this);
     getServer().getPluginManager().registerEvents(new PlayerGetItemListener(), this);
@@ -47,6 +50,7 @@ public final class GreenPandaCore extends JavaPlugin {
     getServer().getPluginManager().registerEvents(new PlayerGetItem(), this);
     getServer().getPluginManager().registerEvents(new BlockUpdateEvent(), this);
     getServer().getPluginManager().registerEvents(new ArmorChangeListener(), this);
+    getServer().getPluginManager().registerEvents(new ItemMenuListener(), this);
 
     getServer().getConsoleSender()
         .sendMessage(Component.text("[GPCore] Core Enabled").color(NamedTextColor.DARK_GREEN));

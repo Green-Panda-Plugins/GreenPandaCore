@@ -12,14 +12,28 @@ commands:
     aliases:
       - gi
     permission: greenpanda.giveitem
-    permission-message: You do not have permission to use this command!
-  testmobcap:
-    description: Test mob cap
-    usage: /<command>
+  itemmenu:
+    description: Opens a menu where you can see all custom items
+    usage: /<command> [page]
+    permission: greenpanda.itemmenu
   placeblock:
     description: Place a custom block
     usage: /<command>
+    permission: greenpanda.placeblock
+  testmobcap:
+    description: Test for the mob cap
+    usage: /<command>
+    permission: greenpanda.item.mobcap
 permissions:
   greenpanda.giveitem:
     description: Allows the player to give themselves or other players a custom item
+    default: op
+  greenpanda.itemmenu:
+    description: Allows the player to open a menu with all custom items
+    default: op
+  greenpanda.test.mobcap:
+    description: Test the mob cap
+    default: op
+  greenpanda.placeblock:
+    description: Allows the player to place custom blocks
     default: op
