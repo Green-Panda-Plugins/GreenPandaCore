@@ -291,8 +291,16 @@ public class ArmorChangeListener implements Listener {
       return;
     }
 
-    if (event.getAction() == Action.RIGHT_CLICK_BLOCK
-        && !player.isSneaking()) {
+    if (handItem == null || handItem.getType().isEmpty()) {
+      return;
+    }
+
+    if (event.getAction() == Action.RIGHT_CLICK_BLOCK && handItem.getType().isBlock()) {
+      return;
+    }
+
+    //Won't equip when selecting certain blocks
+    if (event.getAction() == Action.RIGHT_CLICK_BLOCK && !player.isSneaking()) {
 
       assert block != null;
       BlockData data = block.getBlockData();
@@ -306,10 +314,6 @@ public class ArmorChangeListener implements Listener {
         return;
       }
 
-    }
-
-    if (handItem == null || handItem.getType().isEmpty()) {
-      return;
     }
 
     ArmorType armorType = ArmorType.fromMaterial(handItem.getType());
@@ -328,7 +332,6 @@ public class ArmorChangeListener implements Listener {
     player.updateInventory();
 
     event.setCancelled(true);
-
   }
 
   @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
