@@ -31,7 +31,7 @@ public class PlayerGetItem implements Listener {
 
     Material itemType = item.getType();
 
-    Collection<NamespacedKey> recipesToUnlock = ItemRegistry.getValues(RecipeUnlockable.class)
+    Collection<NamespacedKey> recipesToUnlock = ItemRegistry.getRegistered(RecipeUnlockable.class)
         .stream()
         .filter(r -> itemType.equals(r.recipeRequirement()))
         .map(Craftable::namespacedKey)

@@ -46,7 +46,14 @@ public class TildeSelectors {
 
   }
 
-  private static @Nullable Location parseCommandLocation(Location senderLocation, String @NotNull [] args) {
+  /**
+   * Gets a location from the given tilde or caret selectors
+   *
+   * @param senderLocation The location of the command sender
+   * @param args The selectors to parse
+   * @return A location if args is valid, otherwise null
+   */
+  public static @Nullable Location parseCommandLocation(Location senderLocation, String @NotNull [] args) {
 
     String x = args[0];
     String y = args[1];

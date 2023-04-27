@@ -30,7 +30,7 @@ public class PrepareAnvil implements Listener {
       return;
     }
 
-    List<AnvilRepairable> options = ItemRegistry.getValues(AnvilRepairable.class).stream()
+    List<AnvilRepairable> options = ItemRegistry.getRegistered(AnvilRepairable.class).stream()
         .filter(c -> validRepairable(c, item1, item2)).toList();
 
     if (options.isEmpty()) {

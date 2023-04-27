@@ -17,7 +17,7 @@ public class TestBlock extends CustomBlock {
 
   @Override
   public @NotNull String customId() {
-    return "TestBlock";
+    return "test_block";
   }
 
   @Override

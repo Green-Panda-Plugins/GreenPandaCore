@@ -4,6 +4,7 @@ main: dev.michaud.greenpanda.core.GreenPandaCore
 api-version: 1.19
 prefix: GPCore
 authors: [ PandaDev, SomeGreenDude ]
+depend: [ProtocolLib]
 description: Required for most GreenPanda plugins
 commands:
   giveitem:

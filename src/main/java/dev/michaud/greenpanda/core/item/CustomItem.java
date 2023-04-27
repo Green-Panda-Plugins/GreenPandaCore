@@ -80,8 +80,8 @@ public interface CustomItem {
   /**
    * <p>Checks if the given {@link ItemStack} is of the same type as this {@link CustomItem}.
    * <p>An item is defined as the same type if {@link ItemStack#getType()} is equal
-   * to {@link CustomItem#baseMaterial()}, and the {@link ItemStack} has NBT data matching {@link
-   * CustomItem#customId()} in the namespace of {@link CustomItem#getOwnerPlugin()}.</p>
+   * to {@link CustomItem#baseMaterial()}, and the {@link ItemStack} has NBT data matching
+   * {@link CustomItem#customId()} in the namespace of {@link CustomItem#getOwnerPlugin()}.</p>
    *
    * @param item The item to check.
    * @return True if the item is of the same type as this item.

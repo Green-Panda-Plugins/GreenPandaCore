@@ -1,10 +1,12 @@
 package dev.michaud.greenpanda.core.blocks;
 
+import dev.michaud.greenpanda.core.GreenPandaCore;
+import dev.michaud.greenpanda.core.blocks.data.PersistentBlockData;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.type.NoteBlock;
 import org.bukkit.entity.Player;
+import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -26,16 +28,36 @@ public abstract class CustomBlock implements CustomBlockData {
       return false;
     }
 
-    currentBlock.setType(Material.NOTE_BLOCK);
-    NoteBlock data = (NoteBlock) currentBlock.getBlockData();
+    currentBlock.setType(Material.BARRIER);
 
-    data.setInstrument(getInstrument());
-    data.setNote(getNote());
-    data.setPowered(getPowered());
+//    currentBlock.setType(Material.NOTE_BLOCK);
+//    final NoteBlock data = (NoteBlock) currentBlock.getBlockData();
+//
+//    data.setInstrument(getInstrument());
+//    data.setNote(getNote());
+//    data.setPowered(getPowered());
+//
+//    currentBlock.setBlockData(data);
 
-    currentBlock.setBlockData(data);
+//    PersistentBlockData.addCustomBlock(customId(), currentBlock);
+//
+//    Bukkit.getOnlinePlayers().forEach(p -> {
+//      p.sendBlockChange(currentBlock.getLocation(), data);
+//    });
+
+    debug(currentBlock);
 
     return true;
+  }
+
+  static void debug(@NotNull Block block) {
+    String customBlockType = PersistentBlockData.getPersistentData(block, PersistentBlockData.BLOCK_TYPE_KEY, PersistentDataType.STRING);
+
+    GreenPandaCore.getCore().getLogger().info(String.format("Placed custom block at XYZ: %d / %d / %d! CustomBlockType is %s",
+        block.getX(), block.getY(), block.getZ(),
+        customBlockType == null ? "null" : customBlockType)
+    );
+
   }
 
 }

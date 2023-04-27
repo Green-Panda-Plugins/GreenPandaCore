@@ -2,8 +2,8 @@ package dev.michaud.greenpanda.core.event;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,24 +14,20 @@ import org.jetbrains.annotations.NotNull;
  * is triggered, there are quite a few false positives. Namely, when the player opens a container
  * and moves items between their inventory. Removing false negatives is prioritized over false positives.</p>
  */
-public class PlayerGetItemEvent extends Event implements Cancellable {
+public class PlayerGetItemEvent extends PlayerEvent implements Cancellable {
 
   public static final HandlerList HANDLERS = new HandlerList();
 
-  private final Player player;
   private final ItemStack item;
   private final PlayerGetType eventType;
   private boolean isCancelled;
 
-  public PlayerGetItemEvent(@NotNull Player player, ItemStack item, @NotNull PlayerGetType eventType) {
-    this.player = player;
+  public PlayerGetItemEvent(@NotNull Player who, ItemStack item, @NotNull PlayerGetType eventType) {
+    super(who);
+
     this.item = item;
     this.eventType = eventType;
     this.isCancelled = false;
-  }
-
-  public Player getPlayer() {
-    return player;
   }
 
   public ItemStack getItem() {
@@ -42,15 +38,15 @@ public class PlayerGetItemEvent extends Event implements Cancellable {
     return eventType;
   }
 
-  public boolean fromItemPickup() {
+  public boolean isFromItemPickup() {
     return eventType == PlayerGetType.ITEM_PICKUP;
   }
 
-  public boolean fromContainer() {
+  public boolean isFromContainer() {
     return eventType == PlayerGetType.FROM_CONTAINER;
   }
 
-  public boolean fromCommand() {
+  public boolean isFromCommand() {
     return eventType == PlayerGetType.FROM_COMMAND;
   }
 

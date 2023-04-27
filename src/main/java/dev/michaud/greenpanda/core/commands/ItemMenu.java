@@ -33,7 +33,7 @@ public class ItemMenu implements CommandExecutor {
     );
 
     final ItemStack[] inventoryItems = new ItemStack[54];
-    final CustomItem[] customItems = ItemRegistry.getValues().toArray(new CustomItem[0]);
+    final CustomItem[] customItems = ItemRegistry.getRegistered().toArray(new CustomItem[0]);
 
     for (int i = 0; i < Math.min(customItems.length, 54); i++) {
       inventoryItems[i] = customItems[i].makeItem();
