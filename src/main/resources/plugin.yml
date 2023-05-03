@@ -1,10 +1,10 @@
 name: GreenPandaCore
-version: '${project.version}'
+version: '${version}'
 main: dev.michaud.greenpanda.core.GreenPandaCore
 api-version: 1.19
 prefix: GPCore
 authors: [ PandaDev, SomeGreenDude ]
-depend: [ProtocolLib]
+depend: [ProtocolLib, ViaVersion]
 description: Required for most GreenPanda plugins
 commands:
   giveitem:

@@ -31,7 +31,6 @@ public class ItemMenuListener implements Listener {
 
       event.setCancelled(true);
     }
-
   }
 
 }

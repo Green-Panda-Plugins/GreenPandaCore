@@ -73,7 +73,6 @@ public class PrepareAnvil implements Listener {
     }
 
     return customItem.validRepairMaterial(item2);
-
   }
 
 }

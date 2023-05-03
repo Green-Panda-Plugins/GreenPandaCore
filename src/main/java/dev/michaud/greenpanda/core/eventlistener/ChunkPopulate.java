@@ -11,11 +11,8 @@ public class ChunkPopulate implements Listener {
 
   @EventHandler
   private static void onChunkPopulate(@NotNull ChunkPopulateEvent event) {
-
     Chunk chunk = event.getChunk();
-
     NaturalSpawnManager.getAnimalValues().forEach(animal -> animal.onChunkPopulate(chunk));
-
   }
 
 }

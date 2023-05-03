@@ -1,10 +1,12 @@
 package dev.michaud.greenpanda.core.item;
 
 import com.google.common.collect.ClassToInstanceMap;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.MutableClassToInstanceMap;
+import dev.michaud.greenpanda.core.GreenPandaCore;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -20,27 +22,43 @@ import org.jetbrains.annotations.UnmodifiableView;
  */
 public class ItemRegistry {
 
-  private static final Map<String, CustomItem> CUSTOM_ITEM_MAP = new HashMap<>();
-  private static final ClassToInstanceMap<CustomItem> INSTANCE_MAP = MutableClassToInstanceMap.create();
+  private static final Map<String, CustomItem> ID_TO_INSTANCE_MAP = new HashMap<>();
+  private static final ClassToInstanceMap<CustomItem> CLASS_TO_INSTANCE_MAP = MutableClassToInstanceMap.create();
 
+  /**
+   * Check if the given ItemStack is an instance of the given custom item
+   *
+   * @param clazz The class of item
+   * @param item The item to check
+   * @return True if the class is registered and the item is of the same type
+   */
   public static boolean isCustomItem(Class<? extends CustomItem> clazz, ItemStack item) {
-    CustomItem instance = INSTANCE_MAP.get(clazz);
 
-    if (instance == null) {
+    final CustomItem instance = CLASS_TO_INSTANCE_MAP.get(clazz);
+
+    if (instance != null) {
+      return instance.isType(item);
+    } else {
       return false;
     }
-
-    return instance.isType(item);
   }
 
+  /**
+   * Check if the given ItemStack is an instance of the given custom item
+   *
+   * @param id The id of the custom item
+   * @param item The item to check
+   * @return True if the id is registered and the item is of the same type
+   */
   public static boolean isCustomItem(String id, ItemStack item) {
-    CustomItem instance = CUSTOM_ITEM_MAP.get(id);
 
-    if (instance == null) {
+    final CustomItem instance = ID_TO_INSTANCE_MAP.get(id);
+
+    if (instance != null) {
+      return instance.isType(item);
+    } else {
       return false;
     }
-
-    return instance.isType(item);
   }
 
   /**
@@ -59,7 +77,7 @@ public class ItemRegistry {
       instance = clazz.getDeclaredConstructor().newInstance();
     } catch (InvocationTargetException | InstantiationException | IllegalAccessException |
              NoSuchMethodException e) {
-      e.printStackTrace();
+      GreenPandaCore.getCore().getLogger().severe("Couldn't register item: " + e);
       return;
     }
 
@@ -75,7 +93,7 @@ public class ItemRegistry {
           "Key should only contain alphanumeric characters, underlines, and hyphens!");
     }
 
-    if (CUSTOM_ITEM_MAP.containsKey(key)) {
+    if (ID_TO_INSTANCE_MAP.containsKey(key)) {
       throw new IllegalArgumentException(
           "This item has already been registered! Did you accidentally use the same key twice?");
     }
@@ -85,8 +103,38 @@ public class ItemRegistry {
       plugin.getServer().addRecipe(craftable.recipe());
     }
 
-    INSTANCE_MAP.putInstance(clazz, instance);
-    CUSTOM_ITEM_MAP.put(key, instance);
+    ID_TO_INSTANCE_MAP.put(key, instance);
+    CLASS_TO_INSTANCE_MAP.putInstance(clazz, instance);
+  }
+
+  /**
+   * De-registers the given custom item. Functionality of all instances of this item will revert to
+   * the base item, but will keep all data. If the item is craftable, the recipe will also be
+   * removed.
+   *
+   * @param clazz The class of item to de-register
+   * @param <T> The item class' type
+   */
+  public static <T extends CustomItem> void deregister(@NotNull Class<T> clazz) {
+
+    final T customItem = CLASS_TO_INSTANCE_MAP.getInstance(clazz);
+
+    if (customItem == null) {
+      throw new IllegalArgumentException("Can't deregister item that isn't registered");
+    }
+
+    final Plugin plugin = customItem.getOwnerPlugin();
+
+    if (customItem instanceof Craftable craftable) {
+      try {
+        plugin.getServer().removeRecipe(craftable.namespacedKey());
+      } catch (Exception e) {
+        plugin.getLogger().severe("Couldn't remove recipe from custom item: " + e);
+      }
+    }
+
+    ID_TO_INSTANCE_MAP.values().remove(customItem);
+    CLASS_TO_INSTANCE_MAP.remove(clazz);
   }
 
   /**
@@ -96,7 +144,7 @@ public class ItemRegistry {
    */
   @Contract(pure = true)
   public static @UnmodifiableView @NotNull Collection<CustomItem> getRegistered() {
-    return CUSTOM_ITEM_MAP.values();
+    return ImmutableList.copyOf(ID_TO_INSTANCE_MAP.values());
   }
 
   /**
@@ -117,7 +165,7 @@ public class ItemRegistry {
   }
 
   /**
-   * Gets the custom item with the given customId.
+   * Gets the custom item with the given identifier
    *
    * @param key The customId of the item to get.
    * @return The custom item with the given customId, or null if none exists.
@@ -129,7 +177,7 @@ public class ItemRegistry {
       return null;
     }
 
-    return CUSTOM_ITEM_MAP.get(key);
+    return ID_TO_INSTANCE_MAP.get(key);
   }
 
   /**
@@ -140,13 +188,13 @@ public class ItemRegistry {
    */
   public static <T extends CustomItem> T getInstance(@NotNull Class<T> clazz) {
 
-    if (!INSTANCE_MAP.containsKey(clazz)) {
+    if (!CLASS_TO_INSTANCE_MAP.containsKey(clazz)) {
       throw new IllegalArgumentException(String.format(
           "Class %s isn't registered. Ensure that your items are being registered in onEnable.",
           clazz.getName()));
     }
 
-    CustomItem instance = INSTANCE_MAP.get(clazz);
+    CustomItem instance = CLASS_TO_INSTANCE_MAP.get(clazz);
 
     if (clazz.isInstance(instance)) {
       return clazz.cast(instance);
@@ -165,7 +213,7 @@ public class ItemRegistry {
    */
   @Contract(pure = true)
   public static @UnmodifiableView @NotNull Set<String> getRegisteredKeys() {
-    return Collections.unmodifiableSet(CUSTOM_ITEM_MAP.keySet());
+    return ImmutableSet.copyOf(ID_TO_INSTANCE_MAP.keySet());
   }
 
   /**
@@ -174,7 +222,7 @@ public class ItemRegistry {
    * @return A set containing all registered classes
    */
   public static @UnmodifiableView @NotNull Set<Class<? extends CustomItem>> getRegisteredClasses() {
-    return Collections.unmodifiableSet(INSTANCE_MAP.keySet());
+    return ImmutableSet.copyOf(CLASS_TO_INSTANCE_MAP.keySet());
   }
 
   /**
@@ -196,7 +244,7 @@ public class ItemRegistry {
 
     final String key = item.customId();
 
-    if (key.isBlank() || CUSTOM_ITEM_MAP.containsKey(key)) {
+    if (key.isBlank() || ID_TO_INSTANCE_MAP.containsKey(key)) {
       return false;
     }
 
@@ -204,7 +252,7 @@ public class ItemRegistry {
       item.getOwnerPlugin().getServer().addRecipe(craftable.recipe());
     }
 
-    CUSTOM_ITEM_MAP.put(key, item);
+    ID_TO_INSTANCE_MAP.put(key, item);
 
     return true;
   }

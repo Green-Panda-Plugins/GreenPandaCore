@@ -1,9 +1,8 @@
 package dev.michaud.greenpanda.core.blocks;
 
 import dev.michaud.greenpanda.core.GreenPandaCore;
-import dev.michaud.greenpanda.core.item.CustomItem;
-import org.bukkit.Instrument;
-import org.bukkit.Note;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -16,38 +15,24 @@ public class TestBlock extends CustomBlock {
   }
 
   @Override
-  public @NotNull String customId() {
+  public @NotNull String blockId() {
     return "test_block";
   }
 
   @Override
-  public CustomItem heldItem() {
-    return null;
+  public Component displayName() {
+    return Component.text("Blue Nether Bricks")
+        .decoration(TextDecoration.ITALIC, false);
   }
 
   @Override
   public @NotNull ItemStack[] getDrops(ItemStack tool) {
-    return new ItemStack[] {};
+    return new ItemStack[] { this.makeItem() };
   }
 
   @Override
-  public @NotNull Instrument getInstrument() {
-    return Instrument.BANJO;
-  }
-
-  @Override
-  public @NotNull Note getNote() {
-    return new Note(0);
-  }
-
-  @Override
-  public boolean getPowered() {
-    return false;
-  }
-
-  @Override
-  public boolean getBreakable() {
-    return true;
+  public @NotNull NoteblockState getNoteblockState() {
+    return NoteblockState.BANJO_0_UNPOWERED;
   }
 
   @Override
@@ -64,4 +49,5 @@ public class TestBlock extends CustomBlock {
   public boolean requiresPreferredToolForDrops() {
     return false;
   }
+
 }

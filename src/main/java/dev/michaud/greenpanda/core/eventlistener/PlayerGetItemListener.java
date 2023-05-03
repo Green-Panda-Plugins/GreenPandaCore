@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Listens for when a player gets an item in order to unlock recipes.
+ * Listens for when a player gets an item, to pass to {@link PlayerGetItemEvent}.
  *
  * @see RecipeUnlockable
  */
