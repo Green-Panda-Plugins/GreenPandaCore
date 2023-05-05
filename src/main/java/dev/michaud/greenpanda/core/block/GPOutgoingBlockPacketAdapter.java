@@ -1,4 +1,4 @@
-package dev.michaud.greenpanda.core.blocks;
+package dev.michaud.greenpanda.core.block;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.ListenerOptions;
@@ -14,10 +14,10 @@ import com.viaversion.viaversion.api.minecraft.chunks.PaletteType;
 import com.viaversion.viaversion.api.type.Type;
 import com.viaversion.viaversion.api.type.types.version.ChunkSectionType1_18;
 import dev.michaud.greenpanda.core.GreenPandaCore;
-import dev.michaud.greenpanda.core.blocks.data.ChunkCoordinates;
-import dev.michaud.greenpanda.core.blocks.data.ChunkDataSnapshot;
-import dev.michaud.greenpanda.core.blocks.data.CustomBlockDataSnapshot;
-import dev.michaud.greenpanda.core.blocks.data.PersistentBlockData;
+import dev.michaud.greenpanda.core.block.data.ChunkCoordinates;
+import dev.michaud.greenpanda.core.block.data.ChunkDataSnapshot;
+import dev.michaud.greenpanda.core.block.data.CustomBlockDataSnapshot;
+import dev.michaud.greenpanda.core.block.data.PersistentBlockData;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import java.lang.reflect.Field;
@@ -46,7 +46,7 @@ import sun.misc.Unsafe;
 /**
  * Intercepts outgoing packets relating to custom blocks
  */
-public class GPBlockPacketAdapter extends PacketAdapter {
+public class GPOutgoingBlockPacketAdapter extends PacketAdapter {
 
   public static final Type<ChunkSection> CHUNK_SECTION_TYPE = new ChunkSectionType1_18(
       Block.BLOCK_STATE_REGISTRY.size(),
@@ -56,7 +56,7 @@ public class GPBlockPacketAdapter extends PacketAdapter {
   public static final int DEFAULT_NOTE_BLOCK_ID = Block.BLOCK_STATE_REGISTRY
       .getId(DEFAULT_NOTE_BLOCK_STATE);
 
-  public GPBlockPacketAdapter(GreenPandaCore plugin) {
+  public GPOutgoingBlockPacketAdapter(GreenPandaCore plugin) {
     super(plugin, ListenerPriority.NORMAL,
         List.of(PacketType.Play.Server.MAP_CHUNK,
             PacketType.Play.Server.BLOCK_CHANGE,

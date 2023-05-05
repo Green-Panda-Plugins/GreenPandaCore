@@ -1,7 +1,7 @@
-package dev.michaud.greenpanda.core.blocks.data;
+package dev.michaud.greenpanda.core.block.data;
 
-import dev.michaud.greenpanda.core.blocks.CustomBlock;
-import dev.michaud.greenpanda.core.blocks.CustomBlockRegistry;
+import dev.michaud.greenpanda.core.block.CustomBlock;
+import dev.michaud.greenpanda.core.block.CustomBlockRegistry;
 import java.util.Arrays;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

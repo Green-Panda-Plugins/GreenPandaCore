@@ -1,15 +1,16 @@
-package dev.michaud.greenpanda.core.blocks;
+package dev.michaud.greenpanda.core.block;
 
 import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.MutableClassToInstanceMap;
-import dev.michaud.greenpanda.core.blocks.data.CustomBlockDataSnapshot;
+import dev.michaud.greenpanda.core.block.data.CustomBlockDataSnapshot;
 import dev.michaud.greenpanda.core.item.CustomItem;
 import dev.michaud.greenpanda.core.item.ItemRegistry;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -81,9 +82,94 @@ public class CustomBlockRegistry {
     STATE_TO_INSTANCE_MAP.put(state, instance);
   }
 
+  /**
+   * Register all the given block types.
+   *
+   * @param clazz1 The first class of block to register
+   * @param others Other blocks to register
+   */
+  @SafeVarargs
+  public static void registerAll(@NotNull Class<? extends CustomBlock> clazz1, Class<? extends CustomBlock> @NotNull ... others) {
+
+    register(clazz1);
+
+    for (var clazz : others) {
+      register(clazz);
+    }
+  }
+
+  /**
+   * Gets all registered instances.
+   *
+   * @return All registered instances
+   */
   @Contract(pure = true)
   public static @UnmodifiableView @NotNull Collection<CustomBlock> getRegistered() {
     return ImmutableList.copyOf(CLASS_TO_INSTANCE_MAP.values());
+  }
+
+  /**
+   * Gets the custom block with the given identifier. Thread safe, backed by
+   * {@link ConcurrentHashMap}.
+   *
+   * @param key The id to look up
+   * @return The {@link CustomBlock} instance with the given id, or null if none exists
+   */
+  @Contract("null -> null")
+  public static @Nullable CustomBlock findCustomBlock(String key) {
+    if (key == null || key.isEmpty()) {
+      return null;
+    }
+
+    return ID_TO_INSTANCE_MAP.get(key);
+  }
+
+  /**
+   * Gets the custom block with the specified class.
+   *
+   * @param clazz The block's class
+   * @return Custom block instance with the given class, or null if none exists
+   */
+  public static <T extends CustomBlock> T getInstance(@NotNull Class<T> clazz) {
+
+    if (!CLASS_TO_INSTANCE_MAP.containsKey(clazz)) {
+      throw new IllegalArgumentException(String.format(
+          "Class %s isn't registered. Ensure that your block is being registered on enable!",
+          clazz.getName()));
+    }
+
+    CustomBlock instance = CLASS_TO_INSTANCE_MAP.getInstance(clazz);
+
+    if (clazz.isInstance(instance)) {
+      return clazz.cast(instance);
+    } else {
+      throw new ClassCastException(String.format(
+          "Instance of %s couldn't be cast to %s. Are you sure that you've registered your block correctly?",
+          instance == null ? "null" : instance.getClass().getName(), clazz.getName()));
+    }
+
+  }
+
+  /**
+   * Gets the custom block that this item represents
+   *
+   * @param item The item to check
+   * @return The custom block if found, or null if none is registered
+   */
+  @Contract("null -> null")
+  public static @Nullable CustomBlock findFromItemStack(ItemStack item) {
+
+    if (item == null || item.getType().isEmpty()) {
+      return null;
+    }
+
+    for (CustomBlock block : CLASS_TO_INSTANCE_MAP.values()) {
+      if (block.isType(item)) {
+        return block;
+      }
+    }
+
+    return null;
   }
 
   /**
@@ -145,48 +231,6 @@ public class CustomBlockRegistry {
     }
 
     return STATE_TO_INSTANCE_MAP.containsKey(state);
-  }
-
-  /**
-   * Gets the custom block with the given identifier. Thread safe, backed by
-   * {@link ConcurrentHashMap}.
-   *
-   * @param key The id to look up
-   * @return The {@link CustomBlock} instance with the given id, or null if none exists
-   */
-  @Contract("null -> null")
-  public static @Nullable CustomBlock findCustomBlock(String key) {
-    if (key == null || key.isEmpty()) {
-      return null;
-    }
-
-    return ID_TO_INSTANCE_MAP.get(key);
-  }
-
-  /**
-   * Gets the custom block with the specified class.
-   *
-   * @param clazz The block's class
-   * @return Custom block instance with the given class, or null if none exists
-   */
-  public static <T extends CustomBlock> T getInstance(@NotNull Class<T> clazz) {
-
-    if (!CLASS_TO_INSTANCE_MAP.containsKey(clazz)) {
-      throw new IllegalArgumentException(String.format(
-          "Class %s isn't registered. Ensure that your block is being registered on enable!",
-          clazz.getName()));
-    }
-
-    CustomBlock instance = CLASS_TO_INSTANCE_MAP.getInstance(clazz);
-
-    if (clazz.isInstance(instance)) {
-      return clazz.cast(instance);
-    } else {
-      throw new ClassCastException(String.format(
-          "Instance of %s couldn't be cast to %s. Are you sure that you've registered your block correctly?",
-          instance == null ? "null" : instance.getClass().getName(), clazz.getName()));
-    }
-
   }
 
 }

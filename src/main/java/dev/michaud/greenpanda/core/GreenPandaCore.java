@@ -2,8 +2,10 @@ package dev.michaud.greenpanda.core;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
-import dev.michaud.greenpanda.core.blocks.CustomBlockRegistry;
-import dev.michaud.greenpanda.core.blocks.GPBlockPacketAdapter;
+import dev.michaud.greenpanda.core.block.CustomBlockRegistry;
+import dev.michaud.greenpanda.core.block.GPIncomingBlockPacketAdapter;
+import dev.michaud.greenpanda.core.block.GPOutgoingBlockPacketAdapter;
+import dev.michaud.greenpanda.core.blocks.NullBlock;
 import dev.michaud.greenpanda.core.blocks.TestBlock;
 import dev.michaud.greenpanda.core.commands.GiveItem;
 import dev.michaud.greenpanda.core.commands.ItemMenu;
@@ -60,11 +62,12 @@ public final class GreenPandaCore extends JavaPlugin {
     getServer().getPluginManager().registerEvents(new BlockPlace(), this);
 
     //Blocks & Items
-    CustomBlockRegistry.register(TestBlock.class);
+    CustomBlockRegistry.registerAll(NullBlock.class, TestBlock.class);
 
     //ProtocolLib
     ProtocolManager manager = ProtocolLibrary.getProtocolManager();
-    manager.addPacketListener(new GPBlockPacketAdapter(this));
+    manager.addPacketListener(new GPOutgoingBlockPacketAdapter(this));
+    manager.addPacketListener(new GPIncomingBlockPacketAdapter(this));
 
     getServer().getConsoleSender()
         .sendMessage(Component.text("[GPCore] Core Enabled").color(NamedTextColor.DARK_GREEN));

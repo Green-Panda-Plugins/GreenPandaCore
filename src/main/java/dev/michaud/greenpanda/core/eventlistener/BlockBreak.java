@@ -1,6 +1,6 @@
 package dev.michaud.greenpanda.core.eventlistener;
 
-import dev.michaud.greenpanda.core.blocks.data.PersistentBlockData;
+import dev.michaud.greenpanda.core.block.data.PersistentBlockData;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;

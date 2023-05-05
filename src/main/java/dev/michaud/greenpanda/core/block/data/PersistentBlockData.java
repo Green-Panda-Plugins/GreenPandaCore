@@ -1,7 +1,7 @@
-package dev.michaud.greenpanda.core.blocks.data;
+package dev.michaud.greenpanda.core.block.data;
 
 import dev.michaud.greenpanda.core.GreenPandaCore;
-import dev.michaud.greenpanda.core.blocks.CustomBlockData;
+import dev.michaud.greenpanda.core.block.CustomBlockData;
 import org.bukkit.Chunk;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;

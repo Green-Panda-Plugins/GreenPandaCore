@@ -1,7 +1,7 @@
-package dev.michaud.greenpanda.core.blocks;
+package dev.michaud.greenpanda.core.block;
 
 import dev.michaud.greenpanda.core.GreenPandaCore;
-import dev.michaud.greenpanda.core.blocks.data.PersistentBlockData;
+import dev.michaud.greenpanda.core.block.data.PersistentBlockData;
 import dev.michaud.greenpanda.core.item.CustomItem;
 import dev.michaud.greenpanda.core.nbt.PersistentDataTypeBoolean;
 import org.bukkit.Instrument;
@@ -9,6 +9,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Note;
+import org.bukkit.Sound;
+import org.bukkit.SoundGroup;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -22,16 +24,30 @@ import org.jetbrains.annotations.Nullable;
  */
 public abstract class CustomBlock implements CustomBlockData, CustomItem {
 
+  public static Material REAL_BLOCK_MATERIAL = Material.BARRIER;
+
   /**
    * Places the custom block at the given location
    *
    * @param location The location to place the block
    * @param player The player who placed the block (or null if no player was involved)
-   * @param replace Whether to replace the current block at the given location if it is not air
+   * @param replace If true, will replace the block at the given location even if it's not empty
    * @return If the block was placed or not
    */
   public boolean place(@NotNull Location location, @Nullable Player player, boolean replace) {
+    return place(location, player, replace, false);
+  }
 
+  /**
+   * Places the custom block at the given location
+   *
+   * @param location The location to place the block
+   * @param player The player who placed the block (or null if no player was involved)
+   * @param replace If true, will replace the block at the given location even if it's not empty
+   * @param playSound Whether to play placing sound
+   * @return True if the block was placed
+   */
+  public boolean place(@NotNull Location location, @Nullable Player player, boolean replace, boolean playSound) {
     final Block currentBlock = location.getBlock();
 
     if (!replace && !currentBlock.isEmpty()) {
@@ -45,25 +61,26 @@ public abstract class CustomBlock implements CustomBlockData, CustomItem {
       return false;
     }
 
-    currentBlock.setType(Material.BARRIER);
+    currentBlock.setType(REAL_BLOCK_MATERIAL);
+
+    if (playSound) {
+      playPlaceSound(currentBlock.getLocation());
+    }
 
     return true;
   }
 
-  public @NotNull Instrument getInstrument() {
-    return getNoteblockState().getInstrument();
-  }
+  public void playPlaceSound(Location location) {
 
-  public @NotNull Note getNote() {
-    return getNoteblockState().getNote();
-  }
+    final SoundGroup group = getSoundGroup();
 
-  public int getNoteId() {
-    return getNoteblockState().getNoteId();
-  }
+    if (group == null) {
+      return;
+    }
 
-  public boolean getPowered() {
-    return getNoteblockState().isPowered();
+    final Sound placeSound = group.getPlaceSound();
+
+    location.getWorld().playSound(location, placeSound, 1, 1);
   }
 
   /**
@@ -78,15 +95,14 @@ public abstract class CustomBlock implements CustomBlockData, CustomItem {
   }
 
   /**
-   * Gets the base material of this block's item, {@link Material#NOTE_BLOCK NOTE_BLOCK} by default. Doesn't
-   * affect the placed block, just the item in the inventory. Must be a block
-   * ({@link Material#isBlock()} returns true), otherwise the block will be unable to be placed.
+   * Gets the base material of this block's item, {@link Material#PAPER PAPER} by default.
+   * Doesn't affect the placed block, just the item in the inventory.
    *
    * @return The base material of the item
    */
   @Override
   public @NotNull Material baseMaterial() {
-    return Material.NOTE_BLOCK;
+    return Material.PAPER;
   }
 
   /**
@@ -110,6 +126,17 @@ public abstract class CustomBlock implements CustomBlockData, CustomItem {
   }
 
   /**
+   * Gets the custom model data for this block's item. 0 is no custom model data. By default, set to
+   * be the ordinal number of {@link CustomBlockData#getNoteblockState() getNoteblockState()}
+   *
+   * @return The custom model data of the item
+   */
+  @Override
+  public int customModelData() {
+    return getNoteblockState().ordinal();
+  }
+
+  /**
    * Returns true if this item represents a custom block
    *
    * @param item The item to check
@@ -126,15 +153,20 @@ public abstract class CustomBlock implements CustomBlockData, CustomItem {
     return dataContainer.getOrDefault(key, new PersistentDataTypeBoolean(), false);
   }
 
-  /**
-   * Gets the custom model data for this block's item. 0 is no custom model data. By default, set to
-   * be the ordinal number of {@link CustomBlockData#getNoteblockState() getNoteblockState()}
-   *
-   * @return The custom model data of the item
-   */
-  @Override
-  public int customModelData() {
-    return getNoteblockState().ordinal();
+  public @NotNull Instrument getInstrument() {
+    return getNoteblockState().getInstrument();
+  }
+
+  public @NotNull Note getNote() {
+    return getNoteblockState().getNote();
+  }
+
+  public int getNoteId() {
+    return getNoteblockState().getNoteId();
+  }
+
+  public boolean getPowered() {
+    return getNoteblockState().isPowered();
   }
 
 }

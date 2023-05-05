@@ -165,6 +165,25 @@ public class ItemRegistry {
   }
 
   /**
+   * Gets an unmodifiable Set containing all registered classes
+   *
+   * @return A set containing all registered classes
+   */
+  public static @UnmodifiableView @NotNull Set<Class<? extends CustomItem>> getRegisteredClasses() {
+    return ImmutableSet.copyOf(CLASS_TO_INSTANCE_MAP.keySet());
+  }
+
+  /**
+   * Gets an unmodifiable Set containing all registered item ids.
+   *
+   * @return A set containing all registered item ids.
+   */
+  @Contract(pure = true)
+  public static @UnmodifiableView @NotNull Set<String> getRegisteredKeys() {
+    return ImmutableSet.copyOf(ID_TO_INSTANCE_MAP.keySet());
+  }
+
+  /**
    * Gets the custom item with the given identifier
    *
    * @param key The customId of the item to get.
@@ -207,22 +226,25 @@ public class ItemRegistry {
   }
 
   /**
-   * Gets an unmodifiable Set containing all registered item ids.
+   * Gets the custom item that this item is, if any
    *
-   * @return A set containing all registered item ids.
+   * @param item The item to check
+   * @return The custom item, or null if item isn't a custom item
    */
-  @Contract(pure = true)
-  public static @UnmodifiableView @NotNull Set<String> getRegisteredKeys() {
-    return ImmutableSet.copyOf(ID_TO_INSTANCE_MAP.keySet());
-  }
+  @Contract("null -> null")
+  public static CustomItem findFromItemStack(ItemStack item) {
 
-  /**
-   * Gets an unmodifiable Set containing all registered classes
-   *
-   * @return A set containing all registered classes
-   */
-  public static @UnmodifiableView @NotNull Set<Class<? extends CustomItem>> getRegisteredClasses() {
-    return ImmutableSet.copyOf(CLASS_TO_INSTANCE_MAP.keySet());
+    if (item == null || item.getType().isEmpty()) {
+      return null;
+    }
+
+    for (CustomItem customItem : CLASS_TO_INSTANCE_MAP.values()) {
+      if (customItem.isType(item)) {
+        return customItem;
+      }
+    }
+
+    return null;
   }
 
   /**

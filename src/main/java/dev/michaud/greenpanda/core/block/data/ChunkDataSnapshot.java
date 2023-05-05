@@ -1,10 +1,10 @@
-package dev.michaud.greenpanda.core.blocks.data;
+package dev.michaud.greenpanda.core.block.data;
 
-import static dev.michaud.greenpanda.core.blocks.data.PersistentBlockData.BLOCK_TYPE_KEY;
+import static dev.michaud.greenpanda.core.block.data.PersistentBlockData.BLOCK_TYPE_KEY;
 
 import com.google.common.collect.ImmutableMap;
-import dev.michaud.greenpanda.core.blocks.CustomBlock;
-import dev.michaud.greenpanda.core.blocks.CustomBlockRegistry;
+import dev.michaud.greenpanda.core.block.CustomBlock;
+import dev.michaud.greenpanda.core.block.CustomBlockRegistry;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

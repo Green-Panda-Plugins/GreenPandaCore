@@ -1,4 +1,4 @@
-package dev.michaud.greenpanda.core.blocks.data;
+package dev.michaud.greenpanda.core.block.data;
 
 import org.bukkit.Location;
 import org.jetbrains.annotations.Contract;

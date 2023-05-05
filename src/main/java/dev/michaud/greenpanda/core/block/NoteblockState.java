@@ -1,4 +1,4 @@
-package dev.michaud.greenpanda.core.blocks;
+package dev.michaud.greenpanda.core.block;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;

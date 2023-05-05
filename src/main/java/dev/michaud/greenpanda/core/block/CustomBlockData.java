@@ -1,7 +1,9 @@
-package dev.michaud.greenpanda.core.blocks;
+package dev.michaud.greenpanda.core.block;
 
+import org.bukkit.SoundGroup;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents information about a custom block. This interface only holds information about the
@@ -13,7 +15,7 @@ public interface CustomBlockData {
    * Gets the unique identifier for this item. This is used to keep track of the block & item, so
    * make sure it's not a duplicate.
    *
-   * @return The unique identifier for this item.
+   * @return The unique identifier for this block's item.
    */
   @NotNull String blockId();
 
@@ -32,6 +34,13 @@ public interface CustomBlockData {
    * @return The noteblock state
    */
   @NotNull NoteblockState getNoteblockState();
+
+  /**
+   * Gets the {@link SoundGroup} of this block. If null, no sounds will play.
+   *
+   * @return The sound group
+   */
+  @Nullable SoundGroup getSoundGroup();
 
   /**
    * Gets how long this block will take to break by a player
@@ -68,5 +77,4 @@ public interface CustomBlockData {
   default boolean isIndestructible() {
     return false;
   }
-
 }

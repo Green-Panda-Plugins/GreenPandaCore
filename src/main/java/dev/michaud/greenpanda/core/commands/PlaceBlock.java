@@ -24,6 +24,6 @@ public class PlaceBlock implements CommandExecutor {
     newBlock.place(location, player, true);
 
     return true;
-
   }
+
 }
