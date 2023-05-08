@@ -1,40 +1,16 @@
 package dev.michaud.greenpanda.core.eventlistener;
 
-import static org.bukkit.Material.ANVIL;
-import static org.bukkit.Material.BELL;
-import static org.bukkit.Material.BREWING_STAND;
-import static org.bukkit.Material.CAULDRON;
-import static org.bukkit.Material.COMPOSTER;
-import static org.bukkit.Material.CRAFTING_TABLE;
-import static org.bukkit.Material.LOOM;
-import static org.bukkit.Material.STONECUTTER;
-
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import dev.michaud.greenpanda.core.GreenPandaCore;
 import dev.michaud.greenpanda.core.armor.ArmorType;
 import dev.michaud.greenpanda.core.event.EntityArmorChangeEvent;
 import dev.michaud.greenpanda.core.event.EntityArmorChangeEvent.EquipMethod;
 import dev.michaud.greenpanda.core.event.EntityPostArmorChangeEvent;
+import dev.michaud.greenpanda.core.util.MaterialInfo;
 import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.block.Beacon;
-import org.bukkit.block.Bell;
 import org.bukkit.block.Block;
-import org.bukkit.block.Container;
-import org.bukkit.block.EnchantingTable;
-import org.bukkit.block.Sign;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Openable;
-import org.bukkit.block.data.type.Bed;
-import org.bukkit.block.data.type.BrewingStand;
-import org.bukkit.block.data.type.Chest;
-import org.bukkit.block.data.type.Comparator;
-import org.bukkit.block.data.type.DaylightDetector;
-import org.bukkit.block.data.type.Grindstone;
-import org.bukkit.block.data.type.Lectern;
-import org.bukkit.block.data.type.Switch;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
@@ -63,22 +39,6 @@ import org.jetbrains.annotations.Nullable;
  * Listens for armor change events to pass to {@link EntityArmorChangeEvent}.
  */
 public class ArmorChangeListener implements Listener {
-
-  //Incomplete, other blocks also blocked by class (doors, etc.)
-  static final ImmutableSet<Material> BLOCKED_MATERIALS;
-
-  static {
-    BLOCKED_MATERIALS = Sets.immutableEnumSet(
-        CRAFTING_TABLE,
-        ANVIL,
-        BREWING_STAND,
-        CAULDRON,
-        COMPOSTER,
-        LOOM,
-        STONECUTTER,
-        BELL
-    );
-  }
 
   @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
   private void onPlayerClickInventory(@NotNull InventoryClickEvent event) {
@@ -300,20 +260,11 @@ public class ArmorChangeListener implements Listener {
     }
 
     //Won't equip when selecting certain blocks
-    if (event.getAction() == Action.RIGHT_CLICK_BLOCK && !player.isSneaking()) {
-
-      assert block != null;
-      BlockData data = block.getBlockData();
-
-      if (block instanceof Container || block instanceof Beacon || block instanceof Sign
-          || block instanceof EnchantingTable || block instanceof Bell || data instanceof Bed
-          || data instanceof Openable || data instanceof Chest || data instanceof Switch
-          || data instanceof DaylightDetector || data instanceof BrewingStand
-          || data instanceof Comparator || data instanceof Grindstone || data instanceof Lectern
-          || BLOCKED_MATERIALS.contains(block.getType())) {
+    if (block != null && !player.isSneaking()) {
+      final BlockData data = block.getBlockData();
+      if (MaterialInfo.isInteractable(data)) {
         return;
       }
-
     }
 
     ArmorType armorType = ArmorType.fromMaterial(handItem.getType());
@@ -535,9 +486,8 @@ public class ArmorChangeListener implements Listener {
     final EntityPostArmorChangeEvent lateArmorEvent = new EntityPostArmorChangeEvent(entity, method,
         armorEvent.getOldArmor(), armorEvent.getNewArmor(), slot);
 
-    Bukkit.getScheduler().runTaskLater(GreenPandaCore.getCore(), () -> {
-      manager.callEvent(lateArmorEvent);
-    }, 1);
+    Bukkit.getScheduler().runTaskLater(GreenPandaCore.getCore(), () ->
+        manager.callEvent(lateArmorEvent), 1);
 
     return armorEvent;
   }

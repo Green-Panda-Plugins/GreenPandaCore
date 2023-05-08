@@ -77,7 +77,7 @@ public class ItemRegistry {
       instance = clazz.getDeclaredConstructor().newInstance();
     } catch (InvocationTargetException | InstantiationException | IllegalAccessException |
              NoSuchMethodException e) {
-      GreenPandaCore.getCore().getLogger().severe("Couldn't register item: " + e);
+      GreenPandaCore.severe("Couldn't register item: " + e);
       return;
     }
 

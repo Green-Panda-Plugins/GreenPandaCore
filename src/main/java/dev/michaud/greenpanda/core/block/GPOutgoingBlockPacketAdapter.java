@@ -118,7 +118,7 @@ public class GPOutgoingBlockPacketAdapter extends PacketAdapter {
       try {
         sections[i] = CHUNK_SECTION_TYPE.read(byteBuf);
       } catch (Exception e) {
-        GreenPandaCore.getCore().getLogger().severe("Ran into an error parsing chunk: " + e);
+        GreenPandaCore.severe("Ran into an error parsing chunk: " + e);
       }
     }
 

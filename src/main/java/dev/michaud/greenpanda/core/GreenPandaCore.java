@@ -13,12 +13,12 @@ import dev.michaud.greenpanda.core.commands.PlaceBlock;
 import dev.michaud.greenpanda.core.commands.TestMobCap;
 import dev.michaud.greenpanda.core.eventlistener.ArmorChangeListener;
 import dev.michaud.greenpanda.core.eventlistener.BlockBreak;
-import dev.michaud.greenpanda.core.eventlistener.BlockPlace;
 import dev.michaud.greenpanda.core.eventlistener.ChunkPopulate;
 import dev.michaud.greenpanda.core.eventlistener.ItemMenuListener;
 import dev.michaud.greenpanda.core.eventlistener.PlayerGetItem;
 import dev.michaud.greenpanda.core.eventlistener.PlayerGetItemListener;
 import dev.michaud.greenpanda.core.eventlistener.PrepareAnvil;
+import java.util.logging.Level;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -59,7 +59,6 @@ public final class GreenPandaCore extends JavaPlugin {
     getServer().getPluginManager().registerEvents(new BlockBreak(), this);
     getServer().getPluginManager().registerEvents(new ArmorChangeListener(), this);
     getServer().getPluginManager().registerEvents(new ItemMenuListener(), this);
-    getServer().getPluginManager().registerEvents(new BlockPlace(), this);
 
     //Blocks & Items
     CustomBlockRegistry.registerAll(NullBlock.class, TestBlock.class);
@@ -78,6 +77,22 @@ public final class GreenPandaCore extends JavaPlugin {
   public void onDisable() {
     getServer().getConsoleSender()
         .sendMessage(Component.text("[GPCore] Core Disabled").color(NamedTextColor.DARK_RED));
+  }
+
+  public static void log(Level level, String msg) {
+    core.getLogger().log(level, msg);
+  }
+
+  public static void info(String msg) {
+    core.getLogger().info(msg);
+  }
+
+  public static void warn(String msg) {
+    core.getLogger().warning(msg);
+  }
+
+  public static void severe(String msg) {
+    core.getLogger().severe(msg);
   }
 
 }

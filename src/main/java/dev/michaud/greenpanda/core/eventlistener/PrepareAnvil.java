@@ -5,7 +5,6 @@ import dev.michaud.greenpanda.core.item.AnvilRepairData;
 import dev.michaud.greenpanda.core.item.AnvilRepairable;
 import dev.michaud.greenpanda.core.item.ItemRegistry;
 import java.util.List;
-import java.util.logging.Level;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
@@ -38,8 +37,7 @@ public class PrepareAnvil implements Listener {
     }
 
     if (options.size() > 1) {
-      GreenPandaCore.getCore().getLogger().log(Level.WARNING,
-          "More than one valid anvil recipe found. The first element will be chosen.");
+      GreenPandaCore.warn("More than one valid anvil recipe found. The first element will be chosen.");
     }
 
     AnvilRepairable repairable = options.get(0);

@@ -7,7 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
-import java.util.logging.Level;
 import java.util.stream.Stream;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -114,8 +113,7 @@ public class NaturalSpawnManager {
       animalSpawns.putInstance(data, instance);
       startSpawnCycle(instance);
     } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
-      GreenPandaCore.getCore().getLogger().log(Level.SEVERE,
-          "Couldn't register natural spawning for " + data.getName() + ": " + e);
+      GreenPandaCore.severe("Couldn't register natural spawning for " + data.getName() + ": " + e);
     }
 
   }
@@ -137,8 +135,7 @@ public class NaturalSpawnManager {
       monsterSpawns.putInstance(data, instance);
       startSpawnCycle(instance);
     } catch (InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException e) {
-      GreenPandaCore.getCore().getLogger().log(Level.SEVERE,
-          "Couldn't register natural spawning for " + data.getName() + ": " + e);
+      GreenPandaCore.severe("Couldn't register natural spawning for " + data.getName() + ": " + e);
     }
 
   }
@@ -156,11 +153,9 @@ public class NaturalSpawnManager {
   }
 
   private static void onSpawnCycle(@NotNull NaturalSpawnData data, @NotNull Random random) {
-
     for (Player player : GreenPandaCore.getCore().getServer().getOnlinePlayers()) {
       data.onSpawnCycle(player.getLocation(), random);
     }
-
   }
 
 }

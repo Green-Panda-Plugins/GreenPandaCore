@@ -59,6 +59,13 @@ public class MaterialInfo {
     return builder.build();
   }
 
+  /**
+   * If the given block data can be replaced by placing a block, e.g. grass, fire, etc.
+   *
+   * @param data The data to check
+   * @return True if the given data is replaceable
+   * @see Material#isSolid()
+   */
   public static boolean isReplaceable(@NotNull BlockData data) {
     if (data instanceof Snow snowData) {
       return snowData.getLayers() == 1;
@@ -67,6 +74,16 @@ public class MaterialInfo {
     return REPLACEABLE_MATERIALS.contains(data.getMaterial());
   }
 
+  /**
+   * If the given data is an interactable block, and will prevent actions like placing a block
+   * in favor of its own interaction (e.g. chests, doors, etc). Note that this method is only
+   * relevant to situations where the player is using an empty hand, for example a cauldron is
+   * interactable if it has water and the player uses a bucket. If you want to know if a
+   * block is interactable under any situation, use {@link Material#isInteractable()}
+   *
+   * @param data The data to check
+   * @return True if the given data is interactable
+   */
   public static boolean isInteractable(@NotNull BlockData data) {
     if (data instanceof Jukebox jukeboxData) {
       return jukeboxData.hasRecord();

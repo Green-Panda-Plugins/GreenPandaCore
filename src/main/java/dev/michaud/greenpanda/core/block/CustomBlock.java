@@ -57,7 +57,7 @@ public abstract class CustomBlock implements CustomBlockData, CustomItem {
     try {
       PersistentBlockData.addCustomBlock(currentBlock, this);
     } catch (Exception e) {
-      GreenPandaCore.getCore().getLogger().severe("An error occurred while trying to place custom block: " + e);
+      GreenPandaCore.severe("An error occurred while trying to place custom block: " + e);
       return false;
     }
 

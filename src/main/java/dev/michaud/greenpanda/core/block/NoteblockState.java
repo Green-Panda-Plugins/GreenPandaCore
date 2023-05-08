@@ -9,6 +9,7 @@ import org.bukkit.Note;
 import org.bukkit.block.data.type.NoteBlock;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import oshi.annotation.concurrent.Immutable;
 
 /**
  * Represents one of 1150 possible noteblock states.
@@ -1169,7 +1170,7 @@ public enum NoteblockState {
   CUSTOM_HEAD_24_POWERED(Instrument.CUSTOM_HEAD, 24, true);
   //</editor-fold>
 
-  private static final Map<NoteblockStateKey, NoteblockState> CACHE;
+  private static final @Immutable Map<NoteblockStateKey, NoteblockState> BY_KEY;
 
   static {
     Builder<NoteblockStateKey, NoteblockState> cacheBuilder = ImmutableMap.builderWithExpectedSize(1150);
@@ -1179,7 +1180,7 @@ public enum NoteblockState {
       cacheBuilder.put(key, state);
     }
 
-    CACHE = cacheBuilder.build();
+    BY_KEY = cacheBuilder.build();
   }
 
   private final Instrument instrument;
@@ -1196,7 +1197,7 @@ public enum NoteblockState {
   @Contract(pure = true)
   public static @NotNull NoteblockState of(@NotNull Instrument instrument, int note, boolean powered) {
     Preconditions.checkArgument(note >= 0 && note <= 24, "Note value must be between 0 and 24.");
-    return CACHE.get(new NoteblockStateKey(instrument, note, powered));
+    return BY_KEY.get(new NoteblockStateKey(instrument, note, powered));
   }
 
   @Contract(pure = true)

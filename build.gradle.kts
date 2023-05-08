@@ -3,6 +3,7 @@ plugins {
     java
     id("io.papermc.paperweight.userdev") version "1.5.5"
     id("xyz.jpenilla.run-paper") version "2.0.1" // Adds runServer and runMojangMappedServer tasks for testing
+    id("maven-publish")
 }
 
 group = "dev.michaud.greenpanda"
@@ -35,6 +36,17 @@ dependencies {
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "dev.michaud.greenpanda"
+            artifactId = "core"
+
+            from(components["java"])
+        }
+    }
 }
 
 tasks {
