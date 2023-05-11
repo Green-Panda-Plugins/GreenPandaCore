@@ -1,9 +1,8 @@
 plugins {
     `java-library`
-    java
+    `maven-publish`
+    signing
     id("io.papermc.paperweight.userdev") version "1.5.5"
-    id("xyz.jpenilla.run-paper") version "2.0.1" // Adds runServer and runMojangMappedServer tasks for testing
-    id("maven-publish")
 }
 
 group = "dev.michaud.greenpanda"
@@ -35,16 +34,45 @@ dependencies {
 }
 
 java {
+    withJavadocJar()
+    withSourcesJar()
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 }
 
 publishing {
     publications {
-        create<MavenPublication>("maven") {
-            groupId = "dev.michaud.greenpanda"
+        create<MavenPublication>("mavenJava") {
+
             artifactId = "core"
 
             from(components["java"])
+
+            pom {
+                name.set("GreenPandaCore")
+                description.set("A Minecraft paper plugin that provides some useful stuff to make other plugins. Most plugins in the GreenPanda plugin pack (see github.com/Green-Panda-Plugins) use this as a dependency.")
+                url.set("https://github.com/Green-Panda-Plugins")
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("http://www.opensource.org/licenses/mit-license.php")
+                        distribution.set("repo")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("elim")
+                        name.set("Eli Michaud")
+                        email.set("greenpanda@michaud.dev")
+                        organization.set("com.github.Green-Panda-Plugins")
+                        organizationUrl.set("https://github.com/Green-Panda-Plugins")
+                    }
+                }
+                scm {
+                    url.set("https://github.com/Green-Panda-Plugins/GreenPandaCore")
+                    connection.set("scm:git:git://github.com/Green-Panda-Plugins/GreenPandaCore.git")
+                    developerConnection.set("scm:git:git@github.com:Green-Panda-Plugins/GreenPandaCore.git")
+                }
+            }
         }
     }
 }
@@ -63,6 +91,9 @@ tasks {
     }
     javadoc {
         options.encoding = Charsets.UTF_8.name() // We want UTF-8 for everything
+        if (JavaVersion.current().isJava9Compatible) {
+            (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
+        }
     }
     processResources {
         filteringCharset = Charsets.UTF_8.name() // We want UTF-8 for everything
@@ -77,12 +108,4 @@ tasks {
             expand(props)
         }
     }
-
-    /*
-    reobfJar {
-      // This is an example of how you might change the output location for reobfJar. It's recommended not to do this
-      // for a variety of reasons, however it's asked frequently enough that an example of how to do it is included here.
-      outputJar.set(layout.buildDirectory.file("libs/PaperweightTestPlugin-${project.version}.jar"))
-    }
-     */
 }

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 public interface CustomBlockData {
 
   /**
-   * Gets the unique identifier for this item. This is used to keep track of the block & item, so
+   * Gets the unique identifier for this item. This is used to keep track of the block and item, so
    * make sure it's not a duplicate.
    *
    * @return The unique identifier for this block's item.

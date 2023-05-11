@@ -29,7 +29,7 @@ public class ChunkCoordinates {
    * Converts a location to a packed 32-bit integer
    *
    * @param location The location
-   * @return A packed integer representing the location's X, Y & Z (All other data is lost)
+   * @return A packed integer representing the location's X, Y and Z (All other data is lost)
    */
   public static int toPackedInt(@NotNull Location location) {
     return toPackedInt(
@@ -69,7 +69,7 @@ public class ChunkCoordinates {
   }
 
   /**
-   * Converts packed coordinates back into x, y, & z values
+   * Converts packed coordinates back into X, Y, and Z values
    *
    * @param packedCoords The integer to unpack
    * @return An integer array of <code>[x, y, z]</code>
