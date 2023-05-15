@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.MutableClassToInstanceMap;
 import dev.michaud.greenpanda.core.GreenPandaCore;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +28,7 @@ public class ItemRegistry {
    * Check if the given ItemStack is an instance of the given custom item
    *
    * @param clazz The class of item
-   * @param item The item to check
+   * @param item  The item to check
    * @return True if the class is registered and the item is of the same type
    */
   public static boolean isCustomItem(Class<? extends CustomItem> clazz, ItemStack item) {
@@ -46,7 +45,7 @@ public class ItemRegistry {
   /**
    * Check if the given ItemStack is an instance of the given custom item
    *
-   * @param id The id of the custom item
+   * @param id   The id of the custom item
    * @param item The item to check
    * @return True if the id is registered and the item is of the same type
    */
@@ -62,9 +61,11 @@ public class ItemRegistry {
   }
 
   /**
-   * Registers the given custom item. If the item is also craftable, the recipe will be added. An
-   * instance of the class will be created, which you can get and modify using
-   * {@link ItemRegistry#getInstance(Class)}.
+   * Registers the given custom item. An instance of the class will automatically be created, which
+   * you can get and modify using {@link ItemRegistry#getInstance(Class)}. If the item is an
+   * instance of {@link Craftable}, the recipe will also be added.
+   * <p>Note that if the constructor of your item requires arguments, you will likely need to use
+   * {@link ItemRegistry#register(Class, CustomItem)}, where you can pass your own instance.</p>
    *
    * @param clazz The class of item to register
    * @param <T>   The item class' type
@@ -75,11 +76,24 @@ public class ItemRegistry {
 
     try {
       instance = clazz.getDeclaredConstructor().newInstance();
-    } catch (InvocationTargetException | InstantiationException | IllegalAccessException |
-             NoSuchMethodException e) {
+    } catch (ReflectiveOperationException e) {
       GreenPandaCore.severe("Couldn't register item: " + e);
       return;
     }
+
+    register(clazz, instance);
+  }
+
+  /**
+   * Registers the given custom item. Uses the provided instance, which you can get and modify using
+   * {@link ItemRegistry#getInstance(Class)}. If the item is an instance of {@link Craftable}, the
+   * recipe will also be added.
+   *
+   * @param clazz    The class of the item to register
+   * @param instance The instance of the class to use
+   * @param <T>      The item class' type
+   */
+  public static <T extends CustomItem> void register(@NotNull Class<T> clazz, @NotNull T instance) {
 
     final String key = instance.customId();
     final Plugin plugin = instance.getOwnerPlugin();
@@ -113,7 +127,7 @@ public class ItemRegistry {
    * removed.
    *
    * @param clazz The class of item to de-register
-   * @param <T> The item class' type
+   * @param <T>   The item class' type
    */
   public static <T extends CustomItem> void deregister(@NotNull Class<T> clazz) {
 

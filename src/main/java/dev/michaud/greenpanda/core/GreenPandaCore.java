@@ -14,6 +14,7 @@ import dev.michaud.greenpanda.core.commands.TestMobCap;
 import dev.michaud.greenpanda.core.eventlistener.ArmorChangeListener;
 import dev.michaud.greenpanda.core.eventlistener.BlockBreak;
 import dev.michaud.greenpanda.core.eventlistener.ChunkPopulate;
+import dev.michaud.greenpanda.core.eventlistener.FoxPickupItemListener;
 import dev.michaud.greenpanda.core.eventlistener.ItemMenuListener;
 import dev.michaud.greenpanda.core.eventlistener.PlayerGetItem;
 import dev.michaud.greenpanda.core.eventlistener.PlayerGetItemListener;
@@ -52,13 +53,14 @@ public final class GreenPandaCore extends JavaPlugin {
     getCommand("placeblock").setExecutor(new PlaceBlock());
     getCommand("itemmenu").setExecutor(new ItemMenu());
 
-    getServer().getPluginManager().registerEvents(new PrepareAnvil(), this);
-    getServer().getPluginManager().registerEvents(new PlayerGetItemListener(), this);
-    getServer().getPluginManager().registerEvents(new ChunkPopulate(), this);
-    getServer().getPluginManager().registerEvents(new PlayerGetItem(), this);
-    getServer().getPluginManager().registerEvents(new BlockBreak(), this);
     getServer().getPluginManager().registerEvents(new ArmorChangeListener(), this);
+    getServer().getPluginManager().registerEvents(new BlockBreak(), this);
+    getServer().getPluginManager().registerEvents(new ChunkPopulate(), this);
+    getServer().getPluginManager().registerEvents(new FoxPickupItemListener(), this);
     getServer().getPluginManager().registerEvents(new ItemMenuListener(), this);
+    getServer().getPluginManager().registerEvents(new PlayerGetItem(), this);
+    getServer().getPluginManager().registerEvents(new PlayerGetItemListener(), this);
+    getServer().getPluginManager().registerEvents(new PrepareAnvil(), this);
 
     //Blocks & Items
     CustomBlockRegistry.registerAll(NullBlock.class, TestBlock.class);

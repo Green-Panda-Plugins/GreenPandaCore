@@ -69,6 +69,8 @@ public class MobCapacity {
    * multiple players are only counted once. The cap is then scaled as <code>mobCap * chunks /
    * 289</code>.
    *
+   * @param world The world to check
+   * @param category The spawn category to check
    * @return The global mob cap
    */
   public static int getGlobalCap(@NotNull World world, SpawnCategory category) {
