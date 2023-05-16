@@ -240,6 +240,26 @@ public class ItemRegistry {
   }
 
   /**
+   * Check if the given custom item is registered
+   *
+   * @param clazz The class to look up
+   * @return True if the item has been registered
+   */
+  public static boolean contains(@NotNull Class<? extends CustomItem> clazz) {
+    return CLASS_TO_INSTANCE_MAP.containsKey(clazz);
+  }
+
+  /**
+   * Check if the given custom item is registered
+   *
+   * @param key The key to look up
+   * @return True if the item has been registered
+   */
+  public static boolean contains(@NotNull String key) {
+    return ID_TO_INSTANCE_MAP.containsKey(key);
+  }
+
+  /**
    * Gets the custom item that this item is, if any
    *
    * @param item The item to check
